@@ -1,0 +1,31 @@
+*{
+    box-sizing: border-box;
+}
+body{
+    font-size: 16px;
+}
+.bus{
+    margin: 20px auto;
+    max-width: 300px;
+}
+.select{
+    height: 250px;
+    position: relative;
+    overflow: hidden;
+    text-align: center;
+}
+.select h1{
+    width: 60%;
+    margin: 100px auto 35px auto;
+}
+.exit{
+  height: 50px;
+  position: relative;
+}
+.exit::before, .exit::after{
+    content:'Exit';
+    font-size:14px;
+    Line-height:18px;
+    padding: 0px 2px 2px 2px;
+    display
+}

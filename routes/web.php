@@ -36,7 +36,7 @@ Route::get('/tickets',[TicketController::class,'index'])->name('tickets.index');
 Route::post('/search',[VisitorController::class,'search']);
 Route::get('/about',[VisitorController::class,'about']);
 Route::get('/email',[TicketController::class,'email']);
-Route::get('stripe/{total}/{bookedId}/{seatId}',[VisitorController::class,'stripe'])->name('stripe');
+Route::get('stripe/{total}/{bookedId}/{seatId}/{seatsel}/{}',[VisitorController::class,'stripe'])->name('stripe');
 Route::get('chapa/{total}/{bookedId}/{seatId}',[VisitorController::class,'chapa'])->name('chapa');
 Route::post('pay/{total}/{bookedId}/{seatId}',[ChapaController::class,'initialize'])->name('pay');
 Route::get('callback/{reference}', [ChapaController::class,'callback'])->name('callback');
@@ -62,8 +62,6 @@ Route::get('open/{ScheduleId}', [BusCompaniesController::class,'open']);
 Route::get('edit/{ScheduleId}',[BusCompaniesController::class,'edit']);
 Route::post('editschedule/{ScheduleId}',[BusCompaniesController::class,'editschedule']);
 Auth::routes();
-
-// Route::get('/home', [HomeController::class, 'index'])->name('home');
 
 Route::middleware([
     'auth:sanctum',

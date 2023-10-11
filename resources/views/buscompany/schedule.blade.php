@@ -8,10 +8,11 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>Available Schedules</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+    <link href="{{asset('css/bustyle.css')}}" rel="stylesheet" />
     <link href=" https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="{{asset('css/font-awesome.min.css')}}" rel="stylesheet" />
     <link href="{{asset('css/style.css')}}" rel="stylesheet" />
     <link href="{{asset('css/responsive.css')}}" rel="stylesheet" />
@@ -22,28 +23,7 @@
             background-color: #f1f1f1;
         }
     </style>
-    <script>
-        $(document).ready(function() {
-            // Listen to the change event of the source select element
-            $('select[name="source"]').change(function() {
-                var selectedSource = $(this).val();
-
-                // Filter the terminal select options based on the selected source city
-                $('select[name="terminal"] option').each(function() {
-                    var terminalCity = $(this).data('city');
-
-                    if (terminalCity === selectedSource) {
-                        $(this).show(); // Show the option if it matches the source city
-                    } else {
-                        $(this).hide(); // Hide the option if it doesn't match the source city
-                    }
-                });
-
-                // Reset the terminal select to the default option
-                $('select[name="terminal"]').val('').trigger('change');
-            });
-        });
-    </script>
+  
     <?php
 
     use App\Models\Buses;
@@ -124,18 +104,18 @@
                     <td>{{$schedules->status}}</td>
                     <td>
                         <div class="d-flex gap-2 align-items-center">
-                            <a class="btn btn-success text-white" href="{{url('edit',$schedules->id)}}">
+                            <a class="btn btn-success text-white" href="{{url('edit',$schedules->id)}}" data-bs-toggle="tooltip" data-bs-placement="right" title="Edit Schedule">
                                 <i class='bx bx-pencil nav_icon'></i>
                             </a>
                             <a class="btn btn-danger " data-toggle="modal" data-target="#confirmDeleteModal{{$schedules->id}}">
                                 <i class="fa fa-trash"></i>
                             </a>
                             @if($schedules->status == 'Available')
-                            <a class="btn btn-primary text-white" href="{{url('close',$schedules->id)}}">
+                            <a class="btn btn-primary text-white"  data-bs-toggle="tooltip" data-bs-placement="right" title="Close Schedule" href="{{url('close',$schedules->id)}}">
                               <i class="fa fa-times" aria-hidden="true"></i>
                             </a>
                             @else
-                            <a class="btn btn-info text-white" href="{{url('open',$schedules->id)}}">
+                            <a class="btn btn-info text-white" data-bs-toggle="tooltip" data-bs-placement="right" title="Open Schedule" href="{{url('open',$schedules->id)}}" >
                             <i class="fa fa-check" aria-hidden="true"></i>
                             </a>
                             @endif
@@ -245,15 +225,6 @@
                                 </div>
                             </div>
                             <div class="row mb-3"> <!-- Wrap the remaining two inputs in a row -->
-                                <!-- <div class="col-md-6">
-                                    <label for="terminal" class="col-form-label"><strong>Terminal:</strong></label>
-                                    <select name="terminal" class="form-select form-select-lg mb-3" aria-label="Large select example">
-                                        <option selected disabled>Select Terminal</option>
-                                        @foreach($terminal as $term)
-                                        <option value="{{$term->name}}" data-city="{{$term->city}}">{{$term->name}}</option>
-                                        @endforeach
-                                    </select>
-                                </div> -->
                                 <div class="col-md-6">
                                     <label for="status" class="col-form-label"><strong>Status:</strong></label>
                                     <select name="status" class="form-select form-select-lg mb-3" aria-label="Large select example">
@@ -365,7 +336,8 @@
             }
         }
     </script>
-
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.18/dist/sweetalert2.all.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

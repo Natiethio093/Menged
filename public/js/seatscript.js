@@ -97,7 +97,7 @@ submitBtn.addEventListener('click', () => {
     // Create a form and add the selected seat data
     const form = document.createElement('form');
     form.method = 'POST';
-    form.action = "{{url('seatselects')}}/{{$schedule->id}}/{{$date}}"; //  same as URL of the form
+    form.action = "{{url('seatselects')}}"; //  same as URL of the form
 
     // Create an input field for the selected seat data
     const seatInput = document.createElement('input');

@@ -150,9 +150,11 @@ class VisitorController extends Controller
         return view('passenger.about');
     }
 
-    public function selectseats(Request $req, $scheduleId, $date)
+    public function selectseats(Request $req)
     {
         $selectedSeats = $req->seatInput;
+        $scheduleId = $req->scheduleId;
+        $date = date('Y-m-d', strtotime($req->date));
 
         Seat::where('date', '<', today())->delete();
 
@@ -243,9 +245,17 @@ class VisitorController extends Controller
         ]);
     }
 
-    public function passengerdetail(Request $req, $ScheduleId, $date, $seatId, $seatsel)
+    public function passengerdetail(Request $req)
     {
         //critical  logic unhandled error  when refresing the page 
+        $ScheduleId = $req->scheduleId;
+
+        $seatId = $req->seatId;
+
+        $seatsel = $req->seatsel;
+
+        $date = date('Y-m-d', strtotime($req->date));
+      
         $validator = Validator::make($req->all(), [
             'passenger.*.name' => 'required|string|regex:/^[A-Za-z]+\s[A-Za-z]+$/',
             'passenger.*.phone' => 'required|numeric',
@@ -378,18 +388,39 @@ class VisitorController extends Controller
         ]);
     }
 
-    public function stripe($total, $bookedId, $seatId)
+    public function stripe(Request $req)
     {
+
+        $total = $req->total;
+
+        $bookedId = $req->bookedId;
+
+        $seatId =   $req->seatId;
 
         return view('passenger.stripe', compact('total', 'bookedId', 'seatId'));
     }
-    public function chapa($total, $bookedId, $seatId)
+    public function chapa(Request $req)
     {
+
+        $total = $req->total;
+
+        $bookedId = $req->bookedId;
+
+        $seatId =   $req->seatId;
+
+
         return view('passenger.chapapage', compact('total', 'bookedId', 'seatId'));
     }
 
-    public function stripePost(Request $request, $total, $bookedId, $seatId)
+    public function stripePost(Request $request)
     {
+        
+        $total = $request->total;
+
+        $bookedId = $request->bookedId;
+
+        $seatId =   $request->seatId;
+
         try {
             Stripe\Stripe::setApiKey(env('STRIPE_SECRET'));
 

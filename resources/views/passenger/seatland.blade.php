@@ -136,7 +136,7 @@
                 </div>
                 @endif
                 <div class="mb-3">
-                    <form id="addBookingForm" action="{{url('seatselects')}}/{{$schedule->id}}/{{$date}}" method="POST" class="mt-5" id="myForm">
+                    <form id="addBookingForm" action="{{url('seatselects')}}" method="POST" class="mt-5" id="myForm">
                         @csrf
                         <table id="seatsDiagram" class="table">
                             <tr>
@@ -249,6 +249,10 @@
                 <input type="hidden" id="bookedSeatsInput" value="{{ implode(',', $bookedSeats) }}" readonly>
 
                 <input type="hidden" id="reservedSeatsInput" value="{{ implode(',', $reservedSeats) }}" readonly>
+                
+                <input type="hidden" name = "scheduleId" value = "{{ $schedule->id }}" >
+
+                <input type="hidden" name="date" value="{{ $date }}">
 
                 <div class="d-flex justify-content-end">
                     <button type="submit" class="btn btn-success bg-success text-white" name="submit">Next</button>

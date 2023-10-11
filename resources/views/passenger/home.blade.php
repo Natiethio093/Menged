@@ -60,7 +60,7 @@
     @if (Session::has('payfaild'))
     <script>
         swal({
-            title: "Menged Bus Tickets",
+            title: "Booking Failed ",
             text: "{{ Session::get('payfaild') }}",
             icon: "error",
             buttons: {

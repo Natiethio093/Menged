@@ -78,8 +78,14 @@
                 </div>
                 <div class="col-lg-2">
                     <h3 class="mb-3 text-center">Pay By Chapa: {{$total}}</h3>
-                    <form method="POST" action="{{ route('pay', ['total' => $total, 'bookedId' => $bookedId, 'seatId' => $seatId])}}" id="paymentForm">
+                    <form method="POST" action="{{ route('pay') }}" id="paymentForm">
                         @csrf
+                        <input type="hidden" name="total" value="{{ $total }}">
+
+                        <input type="hidden" name="bookedId" value="{{ $bookedId }}">
+
+                        <input type="hidden" name="seatId" value="{{ $seatId }}">
+                        
                         <input type="submit" value="Pay" class="btn btn-primary" />
                     </form>
                 </div>

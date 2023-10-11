@@ -40,7 +40,7 @@
         <div class="col-md-6 col-md-offset-3">
             <div class="panel panel-default credit-card-box">
                 <div class="panel-heading display-table" >
-                        <h3 class="panel-title" >Payment Details {{$bookedId}}</h3>
+                        <h3 class="panel-title" >Payment Details</h3>
                 </div>
                 <div class="panel-body">
                           @if (Session::has('success'))
@@ -61,14 +61,19 @@
     
                     <form 
                             role="form" 
-                            action="{{ route('stripe.post', ['total' => $total, 'bookedId' => $bookedId ,'seatId' => $seatId]) }}" 
+                            action="{{ route('stripe.post')}}" 
                             method="post" 
                             class="require-validation"
                             data-cc-on-file="false"
                             data-stripe-publishable-key="{{ env('STRIPE_KEY') }}"
                             id="payment-form">
                         @csrf
-    
+                        <input type="hidden" name="total" value="{{ $total }}">
+
+                        <input type="hidden" name="bookedId" value="{{ $bookedId }}">
+
+                        <input type="hidden" name="seatId" value="{{ $seatId }}">
+
                         <div class='form-row row'>
                             <div class='col-xs-12 form-group required'>
                                 <label class='control-label fs-4'>Name on Card</label> <input

@@ -33,13 +33,13 @@
         }
     </style>
     @php
-      $i = 1;
+    $i = 1;
     @endphp
 </head>
 
 <body>
-    
-       <div class="hero_area mt-5">
+
+    <div class="hero_area mt-5">
         @include('passenger.header')
         <div id="head" class="head">
             <img src="{{ asset('images/' . $buscompany->image) }}" alt="Bus Company Image" class="card-title-image rounded-circle">
@@ -106,15 +106,15 @@
                 </div>
             </div>
         </div>
-    <div class="d-flex justify-content-center">
+        <div class="d-flex justify-content-center">
             <h2 style="opacity:0.8" class="fs-2">Fill Passenger Details</h2>
         </div>
-       
-     
+
+
         <div class="container mt-4">
             <div class="row">
                 <div class="col-md-8 col-sm-3 offset-md-2">
-                    <div class="card  shadow transparent-bg" >
+                    <div class="card  shadow transparent-bg">
                         <div class="card-body">
                             @if(session('message'))
                             <div class="alert alert-danger" id="flash-message" role="alert">
@@ -125,7 +125,7 @@
                             </div>
                             @endif
 
-                            <form action="{{route('detail',['scheduleId' => $schedule->id , 'date' => $date ,'seatId' => $seatId ,'seatsel' => $selectedseats2])}}" method="post" class="search-form-container">
+                            <form action="{{route('detail')}}" method="post" class="search-form-container">
                                 @csrf
                                 @foreach($selectedseats as $seat)
                                 <div class="d-flex justify-content-between mt-3">
@@ -138,7 +138,7 @@
 
                                 <div class="card  shadow transparent-bg p-3 m-3 ">
 
-                                    
+
                                     <div class="form-floating">
                                         <input type="text" class="form-control" id="floatingInput" name="passenger[{{ $i }}][name]" placeholder="Full Name" required>
                                         <span style="color:red">@error('passenger[{{ $i }}][name]'){{ $message }}@enderror</span>
@@ -158,9 +158,9 @@
 
                                     <div class="form-floating">
                                         <select class="form-select" id="floatingSelect" aria-label="Floating label select example" name="passenger[{{ $i }}][terminal]">
-                                          <option value="" selected disabled>Select Terminal</option>
+                                            <option value="" selected disabled>Select Terminal</option>
                                             @foreach($terminal as $terminals)
-                                              <option value="{{ $terminals->name }}">{{ $terminals->name }}</option>
+                                            <option value="{{ $terminals->name }}">{{ $terminals->name }}</option>
                                             @endforeach
                                         </select>
                                         <span style="color:red">@error('terminal'){{ $message }}@enderror</span>
@@ -172,6 +172,15 @@
 
                                 <?php $i++ ?>
                                 @endforeach
+
+                                <input type="hidden" name="scheduleId" value="{{ $schedule->id }}">
+
+                                <input type="hidden" name="seatId" value="{{ $seatId }}">
+
+                                <input type="hidden" name="seatsel" value="{{ $selectedseats2 }}">
+
+                                <input type="hidden" name="date" value="{{ $date }}">
+
                                 <button type="submit" class="btn btn-success mt-3 bg-success text-white">Book Ticket</button>
                             </form>
                         </div>
@@ -183,6 +192,6 @@
     </section>
     </div>
     @include('passenger.footer')
-    </body>
+</body>
 
 </html>

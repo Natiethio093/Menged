@@ -22,8 +22,14 @@ class ChapaController extends Controller
         $this->reference = Chapa::generateReference();
 
     }
-    public function initialize(Request $req, $total, $bookedId, $seatId)
+    public function initialize(Request $req)
     {
+        $total = $req->total;
+
+        $bookedId = $req->bookedId;
+
+        $seatId =   $req->seatId;
+        
         try {
             $user = Auth::user();
             // This generates a payment reference

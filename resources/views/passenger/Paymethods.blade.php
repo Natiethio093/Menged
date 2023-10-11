@@ -66,7 +66,7 @@
         </div>
         @endif
         <div id="countdown" class="fs-5 fw-bold text-danger" data-expiration="30"></div><!--The time is in second so change it based on your requirement-->
-       
+
         <div class="heading_container heading_center head" style="margin-bottom:20px">
             <h2 class="des">Payment <span style=" color:#198754">Options</span></h2>
         </div>
@@ -74,14 +74,28 @@
             <!-- <p>{{$total}}</p> -->
             <div class="row align-items-center justify-content-center">
                 <div class="col-lg-2">
-                    <a href="{{ route('chapa', ['total' => $total, 'bookedId' => $bookedId , 'seatId' => $seatId]) }}" class="card shadow new" style="width: 150px; height: 100px; display: flex; align-items: center; justify-content: center;">
-                        <img src="{{asset('images/chapa_logo.png')}}" alt="Chapa Logo" style="max-width: 100%; max-height: 100%; object-fit: contain;">
-                    </a>
+
+                    <form action="{{ route('chapa') }}" method="post">
+                        @csrf
+                        <input type="hidden" name="total" value="{{ $total }}">
+                        <input type="hidden" name="bookedId" value="{{ $bookedId }}">
+                        <input type="hidden" name="seatId" value="{{ $seatId }}">
+                        <button type="submit" class="card shadow new" style="width: 150px; height: 100px; display: flex; align-items: center; justify-content: center; border: none; background: none; padding: 0;">
+                            <img src="{{ asset('images/chapa_logo.png') }}" alt="Chapa Logo" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                        </button>
+                    </form>
+
                 </div>
                 <div class="col-lg-2">
-                    <a href="{{ route('stripe', ['total' => $total, 'bookedId' => $bookedId , 'seatId' => $seatId ]) }}" class="card shadow new" style="width: 150px; height: 100px; display: flex; align-items: center; justify-content: center;">
-                        <img src="{{ asset('images/stripe_logo.png') }}" alt="Stripe Logo" style="max-width: 100%; max-height: 100%; object-fit: contain;">
-                    </a>
+                    <form action="{{ route('stripe') }}" method="post">
+                         @csrf
+                        <input type="hidden" name="total" value="{{ $total }}">
+                        <input type="hidden" name="bookedId" value="{{ $bookedId }}">
+                        <input type="hidden" name="seatId" value="{{ $seatId }}">
+                        <button type="submit" class="card shadow new" style="width: 150px; height: 100px; display: flex; align-items: center; justify-content: center; border: none; background: none; padding: 0;">
+                            <img src="{{ asset('images/stripe_logo.png') }}" alt="Chapa Logo" style="max-width: 100%; max-height: 100%; object-fit: contain;">
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
@@ -90,35 +104,36 @@
     @include('passenger.footer')
 
     <script>
-    const expirationTime = document.getElementById('countdown').dataset.expiration;
-    let remainingTime = expirationTime;
-    function updateCountdown() {
-        const countdownElement = document.getElementById('countdown');
+        const expirationTime = document.getElementById('countdown').dataset.expiration;
+        let remainingTime = expirationTime;
 
-        
-        const hours = Math.floor(remainingTime / 3600);
-        const minutes = Math.floor((remainingTime % 3600) / 60);
-        const seconds = remainingTime % 60;
+        function updateCountdown() {
+            const countdownElement = document.getElementById('countdown');
 
-        countdownElement.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 
-       
-        remainingTime--;
+            const hours = Math.floor(remainingTime / 3600);
+            const minutes = Math.floor((remainingTime % 3600) / 60);
+            const seconds = remainingTime % 60;
 
-       
-        if (remainingTime <= 0) {
-           
-            window.location.href = redirectURL;
-          
-            clearInterval(countdownInterval);
+            countdownElement.textContent = `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+
+            remainingTime--;
+
+
+            if (remainingTime <= 0) {
+
+                window.location.href = redirectURL;
+
+                clearInterval(countdownInterval);
+            }
         }
-    }
 
-    const redirectURL = "{{ route('timeout', ['bookedId' => $bookedId, 'seatsel' => $seatsel, 'seatId' => $seatId]) }}";
+        const redirectURL = "{{ route('timeout', ['bookedId' => $bookedId, 'seatsel' => $seatsel, 'seatId' => $seatId]) }}";
 
-   
-    const countdownInterval = setInterval(updateCountdown, 1000);
-</script>
+
+        const countdownInterval = setInterval(updateCountdown, 1000);
+    </script>
 
     <script>
         function removeFlashMessage() {

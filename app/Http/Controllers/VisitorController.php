@@ -129,7 +129,7 @@ class VisitorController extends Controller
                 $bookedSeats = explode(',', $seats->booked_seats);
                 $reservedSeats = explode(',', $seats->reserved_seats);
             }
-            return view('passenger.seats', [
+            return view('passenger.seatland', [
                 'carriername' => $schedule->name,
                 'schedule' => $schedule,
                 'buscompany' => $buscompany,

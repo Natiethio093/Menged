@@ -141,7 +141,11 @@
                         <table id="seatsDiagram" class="table">
                             <tr>
                                 <script>
-                                    for (let i = 3; i <= 47; i+=4) {
+                                    for (let i = 3; i <= 47; i += 4) {
+                                        if (i === 27) {
+                                            document.write(`<td class="space">&nbsp;</td>`);
+                                        }
+                                
                                         document.write(`
                                             <td id="seat-${i}" class="seat" data-name="${i}">
                                                 <div class="d-flex justify-content-center">
@@ -159,6 +163,11 @@
                             <tr>
                                 <script>
                                     for (let i = 4; i <= 48; i+=4) {
+
+                                        if (i === 28) {
+                                            document.write(`<td class="space">&nbsp;</td>`);
+                                        }
+
                                         document.write(`
                                             <td id="seat-${i}" class="seat" data-name="${i}">
                                                 <div class="d-flex justify-content-center">
@@ -236,10 +245,14 @@
                 <div class="col-auto">
                     <input type="hidden" id="seatInput" class="form-control" name="seatInput" readonly>
                 </div>
+                
+                <input type="hidden" id="bookedSeatsInput" value="{{ implode(',', $bookedSeats) }}" readonly>
+
+                <input type="hidden" id="reservedSeatsInput" value="{{ implode(',', $reservedSeats) }}" readonly>
+
                 <div class="d-flex justify-content-end">
                     <button type="submit" class="btn btn-success bg-success text-white" name="submit">Next</button>
                 </div>
-                <input type="hidden" id="bookedSeatsInput" value="{{ implode(',', $bookedSeats) }}" readonly>
                 </form>
             </div>
     </div>

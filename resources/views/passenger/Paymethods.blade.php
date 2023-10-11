@@ -79,7 +79,7 @@
                     </a>
                 </div>
                 <div class="col-lg-2">
-                    <a href="{{ route('stripe', ['total' => $total, 'bookedId' => $bookedId , 'seatId' => $seatId ,'seatsel' => $seatsel,'remainingTime' => remainingTime]) }}" class="card shadow new" style="width: 150px; height: 100px; display: flex; align-items: center; justify-content: center;">
+                    <a href="{{ route('stripe', ['total' => $total, 'bookedId' => $bookedId , 'seatId' => $seatId ]) }}" class="card shadow new" style="width: 150px; height: 100px; display: flex; align-items: center; justify-content: center;">
                         <img src="{{ asset('images/stripe_logo.png') }}" alt="Stripe Logo" style="max-width: 100%; max-height: 100%; object-fit: contain;">
                     </a>
                 </div>

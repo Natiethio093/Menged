@@ -57,7 +57,17 @@
     <div class="hero_area">
         <!-- Header section starts -->
         @include('passenger.header')
-        <div class="heading_container heading_center head" style="margin-top:-150px;margin-bottom:30px">
+        @if(session('mess'))
+        <div class="alert alert-info" id="flash-message" role="alert">
+            {{ session('mess') }}
+            <button type="button" class="close closebtn" data-dismiss="alert" aria-label="Close" onclick="removeFlashMessage()">
+                <span class="" aria-hidden="true">X</span>
+            </button>
+        </div>
+        @endif
+        <div id="countdown" class="fs-5 fw-bold text-danger" data-expiration="30"></div><!--The time is in second so change it based on your requirement-->
+       
+        <div class="heading_container heading_center head" style="margin-bottom:20px">
             <h2 class="des">Payment <span style=" color:#198754">Options</span></h2>
         </div>
         <div class="container">
@@ -78,6 +88,17 @@
     </div>
 
     @include('passenger.footer')
+
+    <script>
+        function removeFlashMessage() {
+            var flashMessage = document.getElementById('flash-message');
+            if (flashMessage) {
+                flashMessage.parentNode.removeChild(flashMessage);
+            }
+        }
+    </script>
+
+    <script src="{{asset('js/expirebooking.js')}}"></script>
 
     <script src="{{asset('js/jquery-3.4.1.min.js')}}"></script>
     <!-- popper js -->

@@ -8,6 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-datepicker@1.10.2/dist/css/bootstrap-datepicker.min.css" rel="stylesheet">
     <link href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.6/dist/sweetalert2.min.css">
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
     <!-- font awesome style -->
     <link href="css/font-awesome.min.css" rel="stylesheet" />
@@ -56,6 +57,26 @@
         });
     </script>
     @endif
+    @if (Session::has('payfaild'))
+    <script>
+        swal({
+            title: "Menged Bus Tickets",
+            text: "{{ Session::get('payfaild') }}",
+            icon: "error",
+            buttons: {
+                confirm: {
+                    text: "OK",
+                    value: true,
+                    visible: true,
+                    className: "btn btn-danger",
+                    closeModal: true,
+                    dangerMode:true,
+                }
+            },
+            html: true
+        });
+    </script>
+@endif
 
     <!-- Navigation -->
     @include('passenger.header')
@@ -108,7 +129,7 @@
         document.getElementById("decrement").addEventListener("click", decrementPassengerCount);
     </script>
     <script src="{{ asset('js/app.js') }}"></script>
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.6/dist/sweetalert2.min.js"></script>
     <script src="js/jquery-3.4.1.min.js"></script>
     <!-- popper js -->
     <script src="js/popper.min.js"></script>

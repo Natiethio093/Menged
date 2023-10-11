@@ -8,12 +8,18 @@
   <link href="{{asset('css/bustyle.css')}}" rel="stylesheet" />
   <link href=" https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" rel="stylesheet" />
-</head>
+  <style>
+    /* .buses{
+      background-color:#e5e3e3;
+    } */
+  </style>
 
-<body id="body-pd">
+
+</head>
+<body id="body-pd" style="">
  
      @include('buscompany.slider', ['page' => $page])
-     <div class="" id="buses" style="margin-top:100px">
+     <div class="buses" id="buses" style="margin-top:100px" >
         @include('buscompany.dashboard')
      </div>
 

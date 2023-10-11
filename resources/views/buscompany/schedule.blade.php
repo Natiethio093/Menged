@@ -8,11 +8,10 @@
     <meta name="description" content="" />
     <meta name="author" content="" />
     <title>Available Schedules</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
-    <link href="{{asset('css/bustyle.css')}}" rel="stylesheet" />
     <link href=" https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="{{asset('css/font-awesome.min.css')}}" rel="stylesheet" />
     <link href="{{asset('css/style.css')}}" rel="stylesheet" />
     <link href="{{asset('css/responsive.css')}}" rel="stylesheet" />
@@ -104,7 +103,6 @@
                         <th>End Date</th>
                         <th>Status</th>
                         <th>Actions</th>
-                        <th>Close</th>
                     </tr>
                 </thead>
                 @foreach($schedule as $schedules)
@@ -116,7 +114,7 @@
                     <td>{{$route->destination}}</td>
                     <td>{{$schedules->route_type}}</td>
                     <?php
-                    $bus = Buses::where('id', $schedules->bus_id)->first();
+                      $bus = Buses::where('id', $schedules->bus_id)->first();
                     ?>
                     <td>{{$bus->bus_com_id}}</td>
                     <td>{{$schedules->price}}</td>
@@ -125,26 +123,25 @@
                     <td>{{date('l F j, Y', strtotime($schedules->end_date))}}</td>
                     <td>{{$schedules->status}}</td>
                     <td>
-                        <div class="d-grid gap-2">
-                            <a class="btn btn-success text-white" href="#">
-                                Edit
+                        <div class="d-flex gap-2 align-items-center">
+                            <a class="btn btn-success text-white" href="{{url('edit',$schedules->id)}}">
+                                <i class='bx bx-pencil nav_icon'></i>
                             </a>
-                            <a class="btn btn-danger mt-2" data-toggle="modal" data-target="#confirmDeleteModal{{$schedules->id}}">
-                                Delete
+                            <a class="btn btn-danger " data-toggle="modal" data-target="#confirmDeleteModal{{$schedules->id}}">
+                                <i class="fa fa-trash"></i>
                             </a>
+                            @if($schedules->status == 'Available')
+                            <a class="btn btn-primary text-white" href="{{url('close',$schedules->id)}}">
+                              <i class="fa fa-times" aria-hidden="true"></i>
+                            </a>
+                            @else
+                            <a class="btn btn-info text-white" href="{{url('open',$schedules->id)}}">
+                            <i class="fa fa-check" aria-hidden="true"></i>
+                            </a>
+                            @endif
                         </div>
                     </td>
-                    <td>
-                        @if($schedules->status == 'available')
-                        <a class="btn btn-primary text-white" href="{{url('close',$schedules->id)}}">
-                            close
-                        </a>
-                        @else
-                        <a class="btn btn-info text-white" href="{{url('open',$schedules->id)}}">
-                            Open
-                        </a>
-                        @endif
-                    </td>
+                   
                 </tr>
 
 
@@ -217,8 +214,8 @@
                                     <label for="routetype" class="col-form-label"><strong>Route Type:</strong></label>
                                     <select name="routetype" class="form-select form-select-lg mb-3" aria-label="Large select example">
                                         <option selected disabled>Select</option>
-                                        <option value="even">Even</option>
-                                        <option value="odd">Odd</option>
+                                        <option value="Even">Even</option>
+                                        <option value="Odd">Odd</option>
                                     </select>
                                 </div>
                             </div>
@@ -261,9 +258,9 @@
                                     <label for="status" class="col-form-label"><strong>Status:</strong></label>
                                     <select name="status" class="form-select form-select-lg mb-3" aria-label="Large select example">
                                         <option selected disabled>Select Schedule Status</option>
-                                        <option value="available">Available</option>
-                                        <option value="not available">Not Available</option>
-                                        <option value="expired">Expired</option>
+                                        <option value="Available">Available</option>
+                                        <option value="Unavailable">Unavailable</option>
+                                        <option value="Expired">Expired</option>
                                     </select>
                                 </div>
                             </div>
@@ -295,7 +292,7 @@
                                     <select name="source" class="form-select form-select-lg mb-3" aria-label="Large select example">
                                         <option selected disabled>Select Source</option>
                                         @foreach($cities as $cities)
-                                          <option value="{{$cities->name}}">{{$cities->name}}</option>
+                                        <option value="{{$cities->name}}">{{$cities->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -304,7 +301,7 @@
                                     <select name="destination" class="form-select form-select-lg mb-3" aria-label="Large select example">
                                         <option selected disabled>Select Destination</option>
                                         @foreach($cities2 as $city2)
-                                          <option value="{{$city2->name}}">{{$city2->name}}</option>
+                                        <option value="{{$city2->name}}">{{$city2->name}}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -313,8 +310,8 @@
                                     <label for="routetype" class="col-form-label"><strong>Route Type:</strong></label>
                                     <select name="routetype" class="form-select form-select-lg mb-3" aria-label="Large select example">
                                         <option selected disabled>Select</option>
-                                        <option value="even">Even</option>
-                                        <option value="odd">Odd</option>
+                                        <option value="Even">Even</option>
+                                        <option value="Odd">Odd</option>
                                     </select>
                                 </div>
                             </div>
@@ -328,13 +325,13 @@
                                     <select name="bus" class="form-select form-select-lg mb-3" aria-label="Large select example">
                                         <option selected disabled>Select Bus</option>
                                         @foreach($combuses as $bus)
-                                         <option value="{{$bus->bus_com_id}}">{{$bus->bus_com_id}}</option>
+                                        <option value="{{$bus->bus_com_id}}">{{$bus->bus_com_id}}</option>
                                         @endforeach
                                     </select>
                                 </div>
                             </div>
                             <div class="row mb-3"> <!-- Wrap the next two inputs in a row -->
-                               
+
                                 <div class="col-md-6">
                                     <label for="price" class="col-form-label"><strong>Ticket Price:</strong></label>
                                     <input type="number" name="price" min="1" class="form-control" id="price" placeholder="Enter Ticket Price" required>
@@ -343,9 +340,9 @@
                                     <label for="status" class="col-form-label"><strong>Status:</strong></label>
                                     <select name="status" class="form-select form-select-lg mb-3" aria-label="Large select example">
                                         <option selected disabled>Select Schedule Status</option>
-                                        <option value="available">Available</option>
-                                        <option value="not available">Not Available</option>
-                                        <option value="expired">Expired</option>
+                                        <option value="Available">Available</option>
+                                        <option value="Unavailable">Unavailable</option>
+                                        <option value="Expired">Expired</option>
                                     </select>
                                 </div>
                             </div>
@@ -370,7 +367,8 @@
     </script>
 
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/js/all.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <!-- popper js -->
     <script src="{{asset('js/popper.min.js')}}"></script>
@@ -378,7 +376,7 @@
     <script src="{{asset('js/bootstrap.js')}}"></script>
     <!-- custom js -->
     <script src="{{asset('/js/custom.js')}}"></script>
-    
+
     <script src="{{asset('js/dasboard.js')}}"></script>
 </body>
 

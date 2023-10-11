@@ -88,12 +88,12 @@ class VisitorController extends Controller
         }
 
         $dayOfMonth = (int) date('j', strtotime($req->date));
-        $routeType = ($dayOfMonth % 2 === 0) ? 'even' : 'odd';
+        $routeType = ($dayOfMonth % 2 === 0) ? 'Even' : 'Odd';
 
         $schedules = Schedule::where('route_id', $route->id)
             ->where('start_date', '<=', $reqDate)
             ->where('end_date', '>=', $reqDate)
-            ->where('status', 'available')
+            ->where('status', 'Available')
             ->where('route_type', $routeType)
             ->get();
 
@@ -138,8 +138,6 @@ class VisitorController extends Controller
                 'reservedSeats' =>  $reservedSeats ?? [],
                 'route' =>  $route
             ]);
-
-            
         } else {
 
             session(['previous_url' => url()->current()]);
@@ -156,6 +154,7 @@ class VisitorController extends Controller
     {
         $selectedSeats = $req->seatInput;
 
+        Seat::where('date', '<', today())->delete();
 
         if (!$selectedSeats) {
             return redirect()->back()->with('error', 'Please select your seat');
@@ -178,52 +177,36 @@ class VisitorController extends Controller
             ->where('date', $date)
             ->first();
 
-        // $seat = $existingSeats->booked_seats;
+         if ($existingSeats) {
 
-
-        if ($existingSeats){
-           
-            $seatsavailable= $existingSeats->seat_available;
+            $seatsavailable = $existingSeats->seat_available;
 
             $bookedSeatsArray = explode(',', $existingSeats->booked_seats);
 
-           
             $selectedSeatsArray = array_filter(explode(',', $selectedSeats), function ($seat) use ($bookedSeatsArray) {
                 return !in_array($seat, $bookedSeatsArray);
             });
 
-          
+
             $bookedSeatsArray = array_merge($bookedSeatsArray, $selectedSeatsArray);
             $bookedSeatsArray = array_filter($bookedSeatsArray); // Remove empty elements
             sort($bookedSeatsArray);
             $bookedSeatsCount = count($bookedSeatsArray);
-         
-            $availableSeats =  $seatsavailable - $bookedSeatsCount;
 
-           
+            if ($existingSeats->reserved_seats !== null) {
+                $reservedSeatsArray = explode(',', $existingSeats->reserved_seats);
+                $reservedSeatsCount = count($reservedSeatsArray);
+                $availableSeats =  51 - ($bookedSeatsCount + $reservedSeatsCount);
+            } else {
+
+                $availableSeats =  51 - $bookedSeatsCount;
+            }
+
             $existingSeats->booked_seats = implode(',', $bookedSeatsArray);
             $existingSeats->seat_available = $availableSeats;
             $existingSeats->save();
             $seatId = $existingSeats->id;
-        } 
-         
-        // elseif (!$seat){
-        //     $seatcount = explode(',',$selectedSeats);
-        //     $seatnumber = count( $seatcount);
-
-        //     $reseat = explode(',',$existingSeats->reserved_seats);
-        //     $rescount = count( $reseat);
-
-        //     $takenseat =  $rescount + $seatnumber;
-
-        //     $seatavailable = 51 - $takenseat;
-            
-        //     $existingSeats->booked_seats = $selectedSeats;
-        //     $existingSeats->seat_available = $seatavailable;
-         
-        // }
-        
-        else {
+        } else {
             $seat = new Seat();
 
             $SeatsArray = explode(',',  $selectedSeats);
@@ -253,44 +236,14 @@ class VisitorController extends Controller
             'buscompany' => $buscompany,
             'date' => $date,
             'selectedseats' => $SeatsArray,
+            'selectedseats2' => $selectedSeats,
             'terminal' => $terminal,
             'seatId' =>   $seatId,
             'route' =>  $route
         ]);
     }
-    // public function passengerdetail(Request $req,$ScheduleId,$date){
-    //     $validator = Validator::make($req->all(), [
-    //         'passenger.*.name' => 'required|string|regex:/^[A-Za-z]+\s[A-Za-z]+$/',
-    //         'passenger.*.phone' => 'required|numeric',
-    //     ]);
 
-    //     if ($validator->fails()) {
-    //         return redirect()->back()->withErrors($validator)->withInput();
-    //     }
-    //     $user=Auth::user();
-    //     $passengerDetails = $req->input('passenger');
-    //     // $schedule=Schedule::where('id',$ScheduleId)->get();
-    // foreach ($passengerDetails as $passenger) {
-    //     $name = $passenger['name'];
-    //     $phone = $passenger['phone'];
-    //     $terminal =  $passenger['terminal'];
-    //     $seat =  $passenger['seat'];
-
-
-    //     $bookedTicket = new Booked();
-    //     $bookedTicket->user_id=$user->id;
-    //     $bookedTicket->schedule_id=$ScheduleId;
-    //     $bookedTicket->name = $name;
-    //     $bookedTicket->phone = $phone;
-    //     $bookedTicket->seat_no = $seat;
-    //     $bookedTicket->date = $date;
-    //     $bookedTicket->terminal = $terminal;
-    //     $bookedTicket->status= 'Unpaid';
-    //     $bookedTicket->save();
-    // }
-    // }
-
-    public function passengerdetail(Request $req, $ScheduleId, $date, $seatId)
+    public function passengerdetail(Request $req, $ScheduleId, $date, $seatId, $seatsel)
     {
         //critical  logic unhandled error  when refresing the page 
         $validator = Validator::make($req->all(), [
@@ -359,7 +312,70 @@ class VisitorController extends Controller
         $bookedTicket->save();
         $bookedId =  $bookedTicket->id;
 
-        return view('passenger.Paymethods', compact('total', 'existingBooking', 'bookedId', 'seatId'));
+        $currentTime = Carbon::now();
+
+        // Calculate the expiration time (5 minutes from the current time)
+        $expirationTime = $currentTime->addMinutes(1);
+
+        // Store the expiration time in the session
+        $req->session()->put('expiration_time', $expirationTime);
+        Session::put('mess', 'Please complete the payment before the time ended!!');
+
+        return view('passenger.Paymethods', compact('total', 'existingBooking', 'seats', 'bookedId', 'seatId', 'expirationTime', 'seatsel'));
+    }
+
+    public function expiredBookingHandler($bookedId, $seatsel,$seatId)
+    {
+
+        $seatselArray = explode(',', $seatsel);
+
+        $bookedseat = Seat::where('id',$seatId)->first();
+
+        $existingseat =  Booked::where('id', $bookedId)->first();
+
+        $seatbookedSeatsArray = explode(',', $bookedseat->booked_seats);
+      
+        $booknew = array_diff($seatbookedSeatsArray , $seatselArray);
+
+        $updatedSeatsArray = array_filter($booknew);
+
+        $ArrayCount = count($updatedSeatsArray);
+
+        $updatedSeatsString = implode(',', $booknew);
+
+        $seatnew=Seat::where('id',$seatId)->first();
+
+        $selectedSeatsCount = count($seatselArray);
+
+         if($ArrayCount) {
+
+          $availableseat = $seatnew->seat_available;
+
+          $seatnew->booked_seats = $updatedSeatsString;
+
+          $seatnew->seat_available = $availableseat + $selectedSeatsCount;
+
+          $seatnew->save();
+
+        }
+
+        else {
+
+          $availableseat =  $seatnew->seat_available;
+
+          $seatnew->booked_seats =  null;
+
+          $seatnew->seat_available =  $availableseat + $selectedSeatsCount;
+
+          $seatnew->save();
+
+        }
+
+        Booked::where('id', $bookedId)->delete();
+
+        return redirect('/home')->with([
+            'payfaild' => 'Booking Expired!! Please try to pay within 5 minutes next time',
+        ]);
     }
 
     public function stripe($total, $bookedId, $seatId)
@@ -369,9 +385,9 @@ class VisitorController extends Controller
     }
     public function chapa($total, $bookedId, $seatId)
     {
-      return view('passenger.chapapage', compact('total', 'bookedId', 'seatId'));
+        return view('passenger.chapapage', compact('total', 'bookedId', 'seatId'));
     }
-   
+
     public function stripePost(Request $request, $total, $bookedId, $seatId)
     {
         try {
@@ -391,7 +407,7 @@ class VisitorController extends Controller
             return redirect()->back()->with('failed', 'Card error. Please check your card details and try again.');
         }
         $user = Auth::user();
-    
+
 
         $ticketNumber = mt_rand(1000000000, 9999999999);
 
@@ -429,12 +445,12 @@ class VisitorController extends Controller
         $seat->booked_seats = null;
         $seat->save();
 
-       
 
-        
+
+
         Session::put('ticketdetails', [
             'ticketnumber' =>   $ticketNumber,
-            'button' =>'QR Code',
+            'button' => 'QR Code',
             'url' => 'https://github.com/',
         ]);
 
@@ -444,18 +460,19 @@ class VisitorController extends Controller
         // return redirect('/home')->with('paysuccess','Payment Successfull!! We already email your ticket number!!');
         return redirect('/email');
     }
-    
-    public function confirmchapapayment(){
+
+    public function confirmchapapayment()
+    {
 
         $user = Auth::user();
 
         $paymentParams = Session::get('payment_parameters');
-        
-       
+
+
         $total = $paymentParams['total'];
         $bookedId = $paymentParams['bookedId'];
         $seatId = $paymentParams['seatId'];
-    
+
         Session::forget('payment_parameters');
 
         $ticketNumber = mt_rand(1000000000, 9999999999);
@@ -493,19 +510,18 @@ class VisitorController extends Controller
         $seat->booked_seats = null;
         $seat->save();
 
-       
 
-        
+
+
         Session::put('ticketdetails', [
             'ticketnumber' =>   $ticketNumber,
-            'button' =>'QR Code',
+            'button' => 'QR Code',
             'url' => 'https://github.com/',
         ]);
 
 
         $booked->delete();
 
-        // return redirect('/home')->with('paysuccess','Payment Successfull!! We already email your ticket number!!');
         return redirect('/email');
     }
 }

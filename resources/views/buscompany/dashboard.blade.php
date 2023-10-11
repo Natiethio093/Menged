@@ -9,12 +9,21 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="{{asset('css/dashboard.css')}}" />
 </head>
+<style>
+   /* .body{
+    background-color:#e5e3e3;
+   } */
+</style>
 
-<body>
-    <div class="heading-container heading-center m-5">
+<body class="body" style="">
+
+<section class="body">
+
+<div class="heading-container heading-center m-5">
         <h2 class="pl-5 fs-1 text-primary custom-font">Dashboard</h2>
     </div>
     <div class="container">
+   
         <div class="row dashboard">
             <div class="col-md-3 col-sm-6 ">
                 <div class="card passenger shadow">
@@ -24,7 +33,7 @@
                 </div>
             </div>
             <div class="col-md-3 col-sm-6 ">
-                <div class="card buses shadow">
+                <div class="card buscard shadow">
                     <i class="icon fa fa-bus"></i>
                     <div>Buses</div>
                     <div>{{$buses}}</div>
@@ -74,6 +83,7 @@
             </div>
         </div>
     </div>
+    </section>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 

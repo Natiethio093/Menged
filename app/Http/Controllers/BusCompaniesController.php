@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Carbon;
 use App\Models\Seat;
 use App\Models\Ticket;
+use Illuminate\Support\Facades\Session;
 
 class BusCompaniesController extends Controller
 {
@@ -93,6 +94,7 @@ class BusCompaniesController extends Controller
     public function schedules()
     {
         $user = Auth::user();
+
         $company = Buscompany::where('name', $user->name)->first();
 
         $combuses = Buses::where('comp_id', $company->id)->get();
@@ -129,32 +131,20 @@ class BusCompaniesController extends Controller
 
         return view('buscompany.schedule', compact('routes', 'date', 'troutes', 'buses', 'combuses', 'schedule', 'terminal', 'cities', 'cities2', 'page'))->with('message','Schedule with past end dates will be deleted so rember to update on time!!');
     }
-    public function Tickets()
-    {
-        $user = Auth::user();
-       
-        $page = 'ticket';
-
-        $date = Carbon::now();
-
-       
-        $ticketcomp = Ticket::where('comp_name', $user->name)->get();
-
-        return view('buscompany.tickets', compact('ticketcomp','page','date'));
-    }
+    
     public function add_schedules(Request $request)
     {
         $currentDate = Carbon::now()->format('Y-m-d');
         $rules = [
             'source' => 'required',
             'destination' => 'required|different:source',
-            'routetype' => 'required|in:even,odd',
+            'routetype' => 'required|in:Even,Odd',
             'startdate' => 'required|date|after_or_equal:' . $currentDate,
             'enddate' => 'required|date|after_or_equal:startdate',
             // 'terminal'=>'required',
             'bus' => 'required',
             'price' => 'required|numeric|min:1',
-            'status' => 'required|in:available,not available,expired',
+            'status' => 'required|in:Available,Unavailable,Expired',
         ];
 
         $messages = [
@@ -177,17 +167,12 @@ class BusCompaniesController extends Controller
             return redirect()->back()->with('failed', 'This reverse route is not currently available!!');
         }
 
-        // $vcity = Cities::where('name', $validatedData['source'])->first();
-        // $vterminal = Terminal::where('name', $validatedData['terminal'])->first();
+      
 
-        // if ($vcity->id !== $vterminal->city_id) {
-        //     return redirect()->back()->with('failed', 'Invalid Terminal Choice!!');
-        // }
-
-        if ($validatedData['routetype'] == 'even') {
-            $routetype = 'odd';
-        } else if ($validatedData['routetype'] == 'odd') {
-            $routetype = 'even';
+        if ($validatedData['routetype'] == 'Even') {
+            $routetype = 'Odd';
+        } else if ($validatedData['routetype'] == 'Odd') {
+            $routetype = 'Even';
         }
 
         $user = Auth::user();
@@ -249,12 +234,12 @@ class BusCompaniesController extends Controller
         $rules = [
             'source' => 'required',
             'destination' => 'required|different:source',
-            'routetype' => 'required|in:even,odd',
+            'routetype' => 'required|in:Even,Odd',
             'date' => 'required|date|after_or_equal:' . $currentDate,
             // 'terminal'=>'required',
             'bus' => 'required',
             'price' => 'required|numeric|min:1',
-            'status' => 'required|in:available,not available,expired',
+            'status' => 'required|in:Available,Unavailable,Expired',
         ];
 
         $messages = [
@@ -276,10 +261,10 @@ class BusCompaniesController extends Controller
             return redirect()->back()->with('failed', 'This reverse route is not currently available!!');
         }
 
-        if ($validatedData['routetype'] == 'even') {
-            $routetype = 'odd';
-        } else if ($validatedData['routetype'] == 'odd') {
-            $routetype = 'even';
+        if ($validatedData['routetype'] == 'Even') {
+            $routetype = 'Odd';
+        } else if ($validatedData['routetype'] == 'Odd') {
+            $routetype = 'Even';
         }
 
         $user = Auth::user();
@@ -329,14 +314,88 @@ class BusCompaniesController extends Controller
     }
     public function close($scheduleId){
        $schedule= Schedule::where('id',$scheduleId)->first();
-       $schedule->status = 'unavailable';
+       $schedule->status = 'Unavailable';
        $schedule->save();
        return redirect()->back()->with('message','The Schedule is Successfully Closed!!');
     }
     public function open($scheduleId){
         $schedule= Schedule::where('id',$scheduleId)->first();
-        $schedule->status = 'available';
+        $schedule->status = 'Available';
         $schedule->save();
         return redirect()->back()->with('message','The Schedule is Successfully Opend!!');
+     }
+     public function edit($ScheduleId){
+        
+        $user = Auth::user();
+
+        $date = Carbon::now();
+
+        $schedule = Schedule::where('id',$ScheduleId)->first();
+
+        $route = Route::where('id',$schedule->route_id)->first();
+
+        $city = Cities::where('name',$route->source)->first();
+
+        $terminal = Terminal::where('city_id',  $city->id)->get();
+
+        $cities = Cities::all();
+
+        $cities2 = Cities::all();
+
+        $busId=Buses::where('id', $schedule->bus_id)->first();
+
+        $buscompname = Buscompany::where('name',$user->name)->first();
+
+        $combuses = Buses::where('comp_id', $buscompname->id)->get();
+
+        $page = 'schedule';
+
+        Session::put('edit','Edit the schedule with the following previous values');
+        
+        return view('buscompany.edit',compact('schedule','route','date','page','cities','busId','combuses','cities2','terminal'));
+     }
+     public function editschedule(Request $req ,$ScheduleId){
+        $user = Auth::user();
+        $currentDate = Carbon::now()->format('Y-m-d');
+        $validationdata = $req->validate([
+            'source' => 'required',
+            'destination' => 'required|different:source',
+            'routetype' => 'required|in:Even,Odd',
+            'startdate' => 'required|date',
+            'enddate' => 'required|date|after_or_equal:' . $currentDate,
+            'terminal'=>'required',
+            'bus' => 'required',
+            'price' => 'required|numeric|min:1',
+            'status' => 'required|in:Available,Unavailable,Expired',
+        ]);
+
+        $route = Route::where('source',$validationdata['source'])
+        ->where('destination',$validationdata['destination'])
+        ->first();
+
+        $company = Buscompany::where('name',$user->name)->first();
+      
+        $schedule = Schedule::where('id',$ScheduleId)->first();
+
+        $bus = Buses::where('bus_com_id',$validationdata['bus'])->first();
+
+        $terminalId = Terminal::where('name',$validationdata['terminal'])->first();
+
+        $schedule->comp_id  = $company->id;
+        $schedule->name = $user->name;
+        $schedule->route_id  = $route->id;
+        $schedule->route_type = $validationdata['routetype'];
+        $schedule->bus_id  = $bus->id;
+        $schedule->price =$validationdata['price'];
+        $schedule->terminal  =$validationdata['terminal'];
+        $schedule->terminal_id = $terminalId->id;
+        $schedule->start_date  = $validationdata['startdate'];
+        $schedule->end_date  = $validationdata['enddate'];
+        $schedule->status = $validationdata['status'];
+
+        $schedule->save();
+
+        return redirect('schedules')->with('message','Schedule updated successfully!!');
+      
      }
 }

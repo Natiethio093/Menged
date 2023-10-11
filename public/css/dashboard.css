@@ -21,33 +21,42 @@
    text-align: center;
 }
 .passenger {
-   background-color: #4CAF50;
+   /* background-color: #4CAF50; */
+   background-color: #f5f3f3;
+   color:#4CAF50;
 }
 
-.buses {
-   background-color: #2196F3;
+.buscard {
+   background-color: #f5f3f3;
+   color: #2196F3;
 }
 
 .cities {
-   background-color: #FF9800;
+   background-color:  #f5f3f3;
+   color: #e78c04;
 }
 
 .route {
-   background-color: #9C27B0;
+   background-color:  #f5f3f3;
+   color: #9C27B0;
 }
 .aroute {
-   background-color:#756e2cd0;
+   background-color:  #f5f3f3;
+   color:#756e2cd0;
 }
 .schedule {
-   background-color: #E91E63;
+   background-color:  #f5f3f3;
+   color: #E91E63;
 }
 
 .booking {
-   background-color: #FF5722;
+   background-color:  #f5f3f3;
+   color: #FF5722;
 }
 
 .ticket {
-   background-color: #607D8B;
+   background-color:  #f5f3f3;
+  color: #607D8B;
 }
 
 .icon {

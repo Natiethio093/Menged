@@ -8,8 +8,23 @@ use Illuminate\Support\Facades\Notification;
 use App\Notifications\SendTicketNumber;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Carbon;
+use App\Models\Ticket;
 class TicketController extends Controller
 {
+  public function Tickets()
+    {
+        $user = Auth::user();
+       
+        $page = 'ticket';
+
+        $date = Carbon::now();
+
+       
+        $ticketcomp = Ticket::where('comp_name', $user->name)->get();
+
+        return view('buscompany.tickets', compact('ticketcomp','page','date'));
+    }
     public function email(){
 
       $user = Auth::user();

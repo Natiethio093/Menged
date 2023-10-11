@@ -1,3 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title></title>
+  <!-- <link href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+</head>
+<body>
 <section class="container mt-5 mb-5">
   <h2 class="text-center mb-4 fs-2">Why Book with Us?</h2>
   <div class="row">
@@ -8,37 +19,30 @@
         </svg>
         <h4 class="mt-2 fs-5">Convenience</h4>
       </div>
-      <p class="text-center opacity-50">Offering you a range of fleet from which you can choose, do a price compare and check their schedule before closing your online bus ticket making your bus booking experience smoother and more affordable..</p>
+      <p class="text-center opacity-50">Offering you a range of fleet from which you can choose, do a price compare and check their schedule.Make your bus booking experience smoother</p>
     </div>
     <div class="col-md-3 d-flex flex-column align-items-center">
       <div class="text-center">
-        <svg xmlns="http://www.w3.org/2000/svg"  class="ml-3" width="64" height="64" viewBox="0 0 24 24">
-          <path d="M0 0h24v24H0z" fill="none"/>
-          <path d="M13 7H5v2h8V7zm0 4H5v2h8v-2zm0 4H5v2h8v-2zm4-8h2v14h-2V3zm-4 0h2v14h-2V3zm-6 0h2v14H7V3zm-4 0h2v14H3V3z"/>
-        </svg>
+        <i class="fa fa-cogs" style="font-size:64px" aria-hidden="true"></i>
         <h4 class="mt-2 fs-5">Easy to manage</h4>
       </div>
       <p class="text-center opacity-50">You can book, change, and cancel your bus bookings easily via our app or website.</p>
     </div>
     <div class="col-md-3 d-flex flex-column align-items-center">
       <div class="text-center">
-        <svg xmlns="http://www.w3.org/2000/svg"  class="ml-3" width="64" height="64" viewBox="0 0 24 24">
-          <path d="M0 0h24v24H0z" fill="none"/>
-          <path d="M20 6H4l8 4.99zM4 8v10h16V8l-8 5zm0-2l-4 4v12h24V10l-4-4H4zm10 7H9v2h5v3l4-4-4-4v3z"/>
-        </svg>
+        <i class="fa fa-money" style="font-size:64px" aria-hidden="true"></i>
         <h4 class="mt-2 fs-5">Affordability</h4>
       </div>
       <p class="text-center opacity-50">We always give you the lowest price with the best partner offers..</p>
     </div>
     <div class="col-md-3 d-flex flex-column align-items-center">
-      <div class="text-center">
-        <svg xmlns="http://www.w3.org/2000/svg" class="ml-3" width="64" height="64" viewBox="0 0 24 24">
-          <path d="M0 0h24v24H0z" fill="none"/>
-          <path d="M20 6H4l8 4.99zM4 8v10h16V8l-8 5zm0-2l-4 4v12h24V10l-4-4H4zm10 7H9v2h5v3l4-4-4-4v3z"/>
-        </svg>
+    <div class="text-center">
+        <i class="fa fa-headphones" style="font-size:64px" aria-hidden="true"></i>
         <h4 class="mt-2 fs-5">Professional Help Line</h4>
-      </div>
-      <p class="text-center opacity-50">Our customer service is available 24/7 to resolve each and every query about bus ticket booking.</p>
-      </div>
+    </div>
+    <p class="text-center opacity-50">Our customer service is available 24/7 to resolve each and every query about bus ticket booking.</p>
+</div>
     </div>
 </section>
+</body>
+</html>

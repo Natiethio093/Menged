@@ -38,7 +38,7 @@
                </li>
             
                <li class="nav-item">
-                  <a class="btn btn-danger" href="{{route('register')}}">Register</a>
+                  <a class="btn btn-outline-danger" href="{{route('register')}}">Register</a>
                </li>
                @endauth
                @endif

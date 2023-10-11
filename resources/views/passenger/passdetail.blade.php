@@ -33,7 +33,7 @@
         }
     </style>
     @php
-    $i = 1;
+      $i = 1;
     @endphp
 </head>
 
@@ -125,7 +125,7 @@
                             </div>
                             @endif
 
-                            <form action="{{route('detail',['scheduleId' => $schedule->id , 'date' => $date ,'seatId' => $seatId ])}}" method="post" class="search-form-container">
+                            <form action="{{route('detail',['scheduleId' => $schedule->id , 'date' => $date ,'seatId' => $seatId ,'seatsel' => $selectedseats2])}}" method="post" class="search-form-container">
                                 @csrf
                                 @foreach($selectedseats as $seat)
                                 <div class="d-flex justify-content-between mt-3">
@@ -183,6 +183,6 @@
     </section>
     </div>
     @include('passenger.footer')
-</body>
+    </body>
 
 </html>

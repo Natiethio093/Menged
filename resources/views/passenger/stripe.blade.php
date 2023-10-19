@@ -11,14 +11,14 @@
       <meta name="author" content="" />
       <title>Stripe</title>
       <!-- bootstrap core css -->
-      <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+      <link rel="stylesheet" type="text/css" href="{{asset('css/bootstrap.css')}}" />
       
       <!-- font awesome style -->
-      <link href="css/font-awesome.min.css" rel="stylesheet" />
+      <link href="{{asset('css/font-awesome.min.css')}}" rel="stylesheet" />
       <!-- Custom styles for this template -->
-      <link href="css/style.css" rel="stylesheet" />
+      <link href="{{asset('css/style.css')}}" rel="stylesheet" />
       <!-- responsive style -->
-      <link href="css/responsive.css" rel="stylesheet"/>
+      <link href="{{asset('css/responsive.css')}}" rel="stylesheet"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 </head>
@@ -201,11 +201,12 @@ $(function() {
         }
     }
 </script>
-<script src="js/jquery-3.4.1.min.js"></script>
+<script src="{{asset('js/jquery-3.4.1.min.js')}}"></script>
 <!-- popper js -->
-<script src="js/popper.min.js"></script>
+<script src="{{asset('js/popper.min.js')}}"></script>
 <!-- bootstrap js -->
-<script src="js/bootstrap.js"></script>
+<script src="{{asset('js/bootstrap.js')}}"></script>
 <!-- custom js -->
-<script src="js/custom.js"></script>
+<script src="{{asset('js/custom.js')}}"></script>
+
 </html>

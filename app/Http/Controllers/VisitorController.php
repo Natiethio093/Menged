@@ -109,14 +109,15 @@ class VisitorController extends Controller
         $date = $req->input('date');
         return view('passenger.result', ['route' => $route, 'schedules' => $schedules, 'carrier' => $carrier, 'buses' => $buses, 'date' => $date]);
     }
-    public function selectseat($scheduleid, $date)
+    public function selectseat( $scheduleId,$date)
     {
-        if (Auth::id()) {
+
+            if (Auth::id()) {
 
             Seat::whereDate('date', '<', now())
                 ->delete();
 
-            $schedule = Schedule::where('id', $scheduleid)->first();
+            $schedule = Schedule::where('id', $scheduleId)->first();
             $buscompany = Buscompany::where('id', $schedule->comp_id)->first();
 
             $route = Route::where('id', $schedule->route_id)->first();
@@ -334,8 +335,18 @@ class VisitorController extends Controller
         return view('passenger.Paymethods', compact('total', 'existingBooking', 'seats', 'bookedId', 'seatId', 'expirationTime', 'seatsel'));
     }
 
-    public function expiredBookingHandler($bookedId, $seatsel,$seatId)
+    public function expiredBookingHandler()
     {
+       
+        $expired = Session::get('expired');
+
+        $bookedId =  $expired['bookedId'];
+
+        $seatsel  =  $expired['seatsel'];
+
+        $seatId  =  $expired['seatId'];
+
+        Session::forget('expired');
 
         $seatselArray = explode(',', $seatsel);
 

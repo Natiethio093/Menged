@@ -31,7 +31,7 @@ Route::get('/',[VisitorController::class,'index']);
 Route::get('/home',[VisitorController::class,'index'])->name('home');
 Route::post('/seatselects',[VisitorController::class,'selectseats'])->name('seatselects');
 Route::post('/detail',[VisitorController::class,'passengerdetail'])->name('detail');
-Route::get('/timeout/{bookedId}/{seatsel}/{seatId}', [VisitorController::class,'expiredBookingHandler'])->name('timeout');
+Route::get('/timeout', [VisitorController::class,'expiredBookingHandler'])->name('timeout');
 Route::get('/tickets',[TicketController::class,'index'])->name('tickets.index');
 Route::post('/search',[VisitorController::class,'search']);
 Route::get('/about',[VisitorController::class,'about']);

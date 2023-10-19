@@ -49,14 +49,14 @@
                             <span id="passengerCount">1</span> <span class="fs-5">passengers</span>
                             <a id="increment"><i class="fa fa-plus-circle text-success fs-3" aria-hidden="true"></i></a>
                         </div>
-                        @if(session('message'))
+                        <!-- @if(session('message'))
                         <div class="alert alert-danger" id="flash-message" role="alert">
                             {{ session('message') }}
                             <button type="button" class="close closebtn d-flex flex-column align-item-center" stype="margin-top:-70px" data-dismiss="alert" aria-label="Close" onclick="removeFlashMessage()">
                                 <span class=""  stype="margin-top:-70px" aria-hidden="true">X</span>
                             </button>
                         </div>
-                        @endif
+                        @endif -->
                         <button type="submit" class="btn btn-success mt-3 bg-success text-white">Search</button>
                         
                     </form>

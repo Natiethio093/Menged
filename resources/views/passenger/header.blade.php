@@ -13,7 +13,7 @@
 <header class="header_section">
    <div class="container">
       <nav class="navbar navbar-expand-lg custom_nav-container fixed-top bg-white p-3 shadow">
-         <a class="navbar-brand" href="/"><img width="250"  src="{{asset('images/logo.png')}}" alt="#" /></a>
+         <a class="navbar-brand" href="/"><img width="250"  src="{{asset('images/logo1.png')}}" alt="#" /></a>
          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class=""> </span>
          </button>
@@ -36,7 +36,6 @@
                <li class="nav-item mb-1">
                   <a class="btn btn-outline-success" href="{{route('login')}}" id="logincss">Login</a>
                </li>
-            
                <li class="nav-item">
                   <a class="btn btn-outline-danger" href="{{route('register')}}">Register</a>
                </li>
@@ -46,6 +45,5 @@
          </div>
       </nav>
    </div>
-</header>
-
-</html>
+ </header>
+ </html>

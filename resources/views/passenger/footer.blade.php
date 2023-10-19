@@ -13,7 +13,8 @@ integrity="sha384-eZP+7I5CZLwVv9Yh5Se5QV8vFW3pEwBn6jDbO1u4JZQg1C+uZ0qOZ3YveOjG/J
    line-height: 5px;
  }
  .widget_menu ul li a:hover{
-   padding-left:5px;
+   padding-left:9px;
+   transition: 0.4s ease;
  }
  .social-media-links {
    display: flex;
@@ -63,7 +64,7 @@ integrity="sha384-eZP+7I5CZLwVv9Yh5Se5QV8vFW3pEwBn6jDbO1u4JZQg1C+uZ0qOZ3YveOjG/J
          <div class="col-md-3">
             <div class="full">
                <div class="logo_footer">
-                  <a href="/"><img width="210" src="{{asset('images/logocartt.png')}}" alt="#" /></a>
+                  <a href="/"><img width="210" src="{{asset('images/logo4.png')}}" alt="#" /></a>
                </div>
                <div class="information_f">
                   <p><strong>ADDRESS:</strong> Mexico K Building 1st floor</p>
@@ -76,7 +77,7 @@ integrity="sha384-eZP+7I5CZLwVv9Yh5Se5QV8vFW3pEwBn6jDbO1u4JZQg1C+uZ0qOZ3YveOjG/J
             <div class="row">
                <div class="col-md-8">
                   <div class="row">
-                     <div class="col-md-4">
+                     <div class="col-md-3">
                         <div class="widget_menu">
                            <h3 class="fs-5 opacity-50">LINKS</h3>
                            <ul>
@@ -87,7 +88,7 @@ integrity="sha384-eZP+7I5CZLwVv9Yh5Se5QV8vFW3pEwBn6jDbO1u4JZQg1C+uZ0qOZ3YveOjG/J
                            </ul>
                         </div>
                      </div>
-                     <div class="col-md-4">
+                     <div class="col-md-3">
                         <div class="widget_menu">
                            <h3  class="fs-5 opacity-50">CARRIERS</h3>
                            <ul>
@@ -100,17 +101,17 @@ integrity="sha384-eZP+7I5CZLwVv9Yh5Se5QV8vFW3pEwBn6jDbO1u4JZQg1C+uZ0qOZ3YveOjG/J
                            </ul>
                         </div>
                      </div>
-                     <div class="col-md-4">
+                     <div class="col-md-5">
                         <div class="widget_menu">
                            <h3  class="fs-5 opacity-50">ROUTES</h3>
                            <ul>
-                              <li><a class="pb-3 text-light" href="#">Addis  -> Bahirdar</a></li>
-                              <li><a class="pb-3 text-light" href="#">Addis  -> Hawassa</a></li>
-                              <li><a class="pb-3 text-light" href="#">Addis  -> Mekele</a></li>
-                              <li><a class="pb-3 text-light" href="#">Addis  -> Dire Dawa</a></li>
-                              <li><a class="pb-3 text-light" href="#">Moyale  -> Addis</a></li>
-                              <li><a class="pb-3 text-light" href="#">Addis  -> Arbaminch</a></li>
-                              <li><a class="pb-3 text-light" href="#">Addis  -> jigjiga</a></li>
+                              <li><a class="pb-3 text-light" href="#">Addis Abeba -> Bahirdar</a></li>
+                              <li><a class="pb-3 text-light" href="#">Addis Abeba -> Hawassa</a></li>
+                              <li><a class="pb-3 text-light" href="#">Addis Abeba -> Mekele</a></li>
+                              <li><a class="pb-3 text-light" href="#">Addis Abeba -> Dire Dawa</a></li>
+                              <li><a class="pb-3 text-light" href="#">Bahirdar -> Addis Abeba</a></li>
+                              <li><a class="pb-3 text-light" href="#">Addis Abeba -> Dessie</a></li>
+                              <li><a class="pb-3 text-light" href="#">Hawassa -> Addis Abeba</a></li>
                            </ul>
                         </div>
                      </div>
@@ -118,7 +119,7 @@ integrity="sha384-eZP+7I5CZLwVv9Yh5Se5QV8vFW3pEwBn6jDbO1u4JZQg1C+uZ0qOZ3YveOjG/J
                   </div>
                </div>
              
-       <div class="col-lg-3 col-md-3 col-sm-5">
+               <div class="col-lg-3 col-md-3 col-sm-5">
                   <div class="widget_menu">
                      <div class="footer-col">
                         <h3  class="fs-5 opacity-50">Follow us</h3>

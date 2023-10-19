@@ -16,13 +16,34 @@
     <link href="{{asset('css/style.css')}}" rel="stylesheet" />
     <link href="{{asset('css/style3.css')}}" rel="stylesheet" />
     <link href="{{asset('css/responsive.css')}}" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css">
     <!-- Font Awesome -->
-    <script src="https://kit.fontawesome.com/d8cfbe84b9.js" crossorigin="anonymous"></script>
     <style>
         .card.no-border {
             border: none !important;
         }
+
+        .toast-success {
+            background-color: #094f07 !important;
+            color: #fff !important;
+        }
+
+        .toast-error {
+            background-color: #b91515 !important;
+            color: #fff !important;
+        }
+
+        .toast-info {
+            background-color: #0a617e !important;
+            color: #fff !important;
+        }
     </style>
+    <?php
+
+    use Illuminate\Support\Facades\Session;
+    ?>
+
+
 
 </head>
 
@@ -42,7 +63,7 @@
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-lg-10 col-md-9 col-sm-12">
-                                        
+
                                         <div class="row">
                                             <div class="col-lg-6 col-md-6 col-sm-6">
                                                 <p class="card-text text-lg-center text-md-start text-sm-center fs-5">
@@ -51,7 +72,7 @@
                                             </div>
                                             <div class="col-lg-6 col-md-6 col-sm-6">
                                                 <p class="card-text text-lg-center text-md-start text-sm-center fs-5">
-                                                {{$route->destination}}
+                                                    {{$route->destination}}
                                                 </p>
                                             </div>
                                         </div>
@@ -104,7 +125,7 @@
                     </div>
                     <div class="col-md-2">
                         <img src="{{asset('images/Reserved.png')}}" width="40" height="40" class="" alt="Image">
-                        <p class="text-left" >Reserved</p>
+                        <p class="text-left">Reserved</p>
                     </div>
                     <div class="col-md-2">
                         <img src="{{asset('images/Booked.png')}}" width="40" height="40" class="" alt="Image">
@@ -145,7 +166,7 @@
                                         if (i === 27) {
                                             document.write(`<td class="space">&nbsp;</td>`);
                                         }
-                                
+
                                         document.write(`
                                             <td id="seat-${i}" class="seat" data-name="${i}">
                                                 <div class="d-flex justify-content-center">
@@ -162,7 +183,7 @@
                             </tr>
                             <tr>
                                 <script>
-                                    for (let i = 4; i <= 48; i+=4) {
+                                    for (let i = 4; i <= 48; i += 4) {
 
                                         if (i === 28) {
                                             document.write(`<td class="space">&nbsp;</td>`);
@@ -202,14 +223,14 @@
 
                                         <img src="{{asset('images/Selected.png')}}" width="70" height="70" class="selected-image" alt="Selected Image">
 
-                                         <img src="{{asset('images/Booked.png')}}" width="70" height="70" class="booked-images" alt="Booked Image">
-                                         <img src="{{asset('images/Reserved.png')}}" width="70" height="70" class="reserved-images" alt="Reserved Image">
+                                        <img src="{{asset('images/Booked.png')}}" width="70" height="70" class="booked-images" alt="Booked Image">
+                                        <img src="{{asset('images/Reserved.png')}}" width="70" height="70" class="reserved-images" alt="Reserved Image">
                                     </div>
                                 </td>
                             </tr>
                             <tr>
                                 <script>
-                                    for (let i = 2; i <= 50; i+=4) {
+                                    for (let i = 2; i <= 50; i += 4) {
                                         document.write(`
                                             <td id="seat-${i}" class="seat" data-name="${i}">
                                                 <div class="d-flex justify-content-center">
@@ -225,7 +246,7 @@
                                 </script>
                             <tr>
                                 <script>
-                                    for (let i = 1; i <= 49; i+=4) {
+                                    for (let i = 1; i <= 49; i += 4) {
                                         document.write(`
                                             <td id="seat-${i}" class="seat" data-name="${i}">
                                                 <div class="d-flex justify-content-center">
@@ -245,12 +266,12 @@
                 <div class="col-auto">
                     <input type="hidden" id="seatInput" class="form-control" name="seatInput" readonly>
                 </div>
-                
+
                 <input type="hidden" id="bookedSeatsInput" value="{{ implode(',', $bookedSeats) }}" readonly>
 
                 <input type="hidden" id="reservedSeatsInput" value="{{ implode(',', $reservedSeats) }}" readonly>
-                
-                <input type="hidden" name = "scheduleId" value = "{{ $schedule->id }}" >
+
+                <input type="hidden" name="scheduleId" value="{{ $schedule->id }}">
 
                 <input type="hidden" name="date" value="{{ $date }}">
 
@@ -262,19 +283,45 @@
     </div>
     </section>
     @include('passenger.footer')
-   
-</body>
 
-</html>  
-<script src="{{asset('js/seatscript.js')}}"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
-<script src="{{asset('js/jquery-3.4.1.min.js')}}"></script>
-<!-- popper js -->
-<script src="{{asset('js/popper.min.js')}}"></script>
-<!-- bootstrap js -->
-<script src="{{asset('js/bootstrap.js')}}"></script>
-<!-- custom js -->
-<script src="{{asset('js/custom.js')}}"></script>
+    <script src="{{asset('home/js/jquery-3.4.1.min.js')}}"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.min.js" integrity="sha512-WW8/jxkELe2CAiE4LvQfwm1rajOS8PHasCCx+knHG0gBHt8EXxS6T6tJRTGuDQVnluuAvMxWF4j8SNFDKceLFg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+    
+    @if(Session::has('error'))
+      <script>
+        toastr.options = {
+            "progressBar": true,
+            "positionClass": "toast-top-right",
+            "closeButton": true,
+        }
+        toastr.error("{{ Session::get('error') }}", 'Error!', {timeOut: 10000 });
+      </script>
+    @endif
+
+    <script>
+      function removeFlashMessage() {
+         var flashMessage = document.getElementById('flash-message');
+         if (flashMessage) {
+            flashMessage.parentNode.removeChild(flashMessage);
+         }
+      }
+   </script>
+
+    <script src="https://kit.fontawesome.com/d8cfbe84b9.js" crossorigin="anonymous"></script>
+
+    <script src="{{asset('js/seatscript.js')}}"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4" crossorigin="anonymous"></script>
+    <!-- popper js -->
+    <script src="{{asset('js/popper.min.js')}}"></script>
+    <!-- bootstrap js -->
+    <script src="{{asset('js/bootstrap.js')}}"></script>
+    <!-- custom js -->
+    <script src="{{asset('js/custom.js')}}"></script>
 </body>
 
 </html>

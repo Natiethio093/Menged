@@ -26,6 +26,7 @@
         use App\Models\Buscompany;
         use App\Models\Buses;
         use App\Models\Seat;
+        use Illuminate\Support\Facades\Session;
     ?>
 
 </head>
@@ -113,6 +114,7 @@
                                         </p>
                                     </div>
                                     <div class="col-lg-10 col-md-8 col-sm-9 mt-2">
+                                         
                                       <a class="btn btn-success text-white" href="{{ route('selectseat', ['scheduleId' => $schedule->id, 'date' => $date]) }}">Book Now</a>
                                     </div>
                                 </div>

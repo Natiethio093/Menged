@@ -51,6 +51,10 @@
         }
     </style>
     <script src="https://kit.fontawesome.com/d8cfbe84b9.js" crossorigin="anonymous"></script>
+
+      <?php
+          use Illuminate\Support\Facades\Session;
+      ?>
 </head>
 
 <body>
@@ -101,6 +105,14 @@
         </div>
     </div>
 
+      <?php
+        Session::put('expired',[
+            'bookedId' => $bookedId,
+            'seatsel' =>$seatsel,
+            'seatId' => $seatId
+        ])
+      ?>
+
     @include('passenger.footer')
 
     <script>
@@ -129,7 +141,7 @@
             }
         }
 
-        const redirectURL = "{{ route('timeout', ['bookedId' => $bookedId, 'seatsel' => $seatsel, 'seatId' => $seatId]) }}";
+        const redirectURL = "{{ route('timeout') }}";
 
 
         const countdownInterval = setInterval(updateCountdown, 1000);

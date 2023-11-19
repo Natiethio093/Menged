@@ -15,7 +15,7 @@
   <header class="header" id="header">
     <div class="header_toggle"> <i class='bx bx-menu' id="header-toggle"></i> </div>
     <p class="nav_name">{{date('l F j, Y', strtotime($date))}}</p>
-     <div class="header_img"> <img src="{{asset('images/logo.png')}}" alt=""> </div>
+     <div class="header_img"> <img src="{{asset('images/logo1.png')}}" alt=""> </div>
     <x-app-layout></x-app-layout>
   </header>
   <div class="l-navbar" id="nav-bar">

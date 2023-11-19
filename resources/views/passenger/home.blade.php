@@ -37,16 +37,19 @@
         .toast-success {
             background-color: #094f07 !important;
             color: #fff !important;
+            opacity: 1 !important;
         }
 
         .toast-error {
             background-color: #b91515 !important;
             color: #fff !important;
+            opacity: 1 !important;
         }
 
         .toast-info {
             background-color: #0a617e !important;
             color: #fff !important;
+            opacity: 1 !important;
         }
     </style>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js" integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
@@ -112,7 +115,7 @@
     <!-- Footer -->
     @include('passenger.footer')
 
-    <script src="{{asset('home/js/jquery-3.4.1.min.js')}}"></script>
+    <script src="{{asset('js/jquery-3.4.1.min.js')}}"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.min.js" integrity="sha512-WW8/jxkELe2CAiE4LvQfwm1rajOS8PHasCCx+knHG0gBHt8EXxS6T6tJRTGuDQVnluuAvMxWF4j8SNFDKceLFg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
@@ -137,7 +140,7 @@
             "closeButton": true,
         }
         toastr.error("{{ Session::get('message') }}", 'Error!', {
-            timeOut: 10000
+            timeOut: 8000
         });
     </script>
     @elseif(Session::has('info'))
@@ -182,31 +185,32 @@
         }
     </script>
     <script>
-        var passengerCount = 1;
+    var passengerCount = 1;
 
-        function updatePassengerCount() {
-            var passengerCountElement = document.getElementById("passengerCount");
-            passengerCountElement.textContent = passengerCount;
-        }
+    function updatePassengerCount() {
+        var passengerCountElement = document.getElementById("passengerCount");
+        passengerCountElement.textContent = passengerCount;
+        var passengerCountInput = document.getElementById("passengerCountInput");
+        passengerCountInput.value = passengerCount;
+    }
 
-        function incrementPassengerCount() {
-            passengerCount++;
+    function incrementPassengerCount() {
+        passengerCount++;
+        updatePassengerCount();
+    }
+
+    function decrementPassengerCount() {
+        if (passengerCount > 1) {
+            passengerCount--;
             updatePassengerCount();
         }
+    }
 
-        function decrementPassengerCount() {
-            if (passengerCount > 1) {
-                passengerCount--;
-                updatePassengerCount();
-            }
-        }
-
-        document.getElementById("increment").addEventListener("click", incrementPassengerCount);
-        document.getElementById("decrement").addEventListener("click", decrementPassengerCount);
-    </script>
+    document.getElementById("increment").addEventListener("click", incrementPassengerCount);
+    document.getElementById("decrement").addEventListener("click", decrementPassengerCount);
+</script>
     <script src="{{ asset('js/app.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.6/dist/sweetalert2.min.js"></script>
-    <script src="{{asset('js/jquery-3.4.1.min.js')}}"></script>
     <!-- popper js -->
     <script src="{{asset('js/popper.min.js')}}"></script>
     <!-- bootstrap js -->

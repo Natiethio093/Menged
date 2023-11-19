@@ -26,11 +26,13 @@
         .toast-success {
             background-color: #094f07 !important;
             color: #fff !important;
+            opacity: 1 !important;
         }
 
         .toast-error {
             background-color: #b91515 !important;
             color: #fff !important;
+            opacity: 1 !important;
         }
 
         .toast-info {
@@ -141,14 +143,8 @@
                     </div>
                 </div>
 
-                @if (session('error'))
-                <div class="alert alert-danger" id="flash-message" role="alert">
-                    {{ session('error') }}
-                    <button type="button" class="close closebtn" data-dismiss="alert" aria-label="Close" onclick="removeFlashMessage()">
-                        <span class="" aria-hidden="true">X</span>
-                    </button>
-                </div>
-                @elseif (session('success'))
+               
+                @if(session('success'))
                 <div class="alert alert-success" id="flash-message" role="alert">
                     {{ session('success') }}
                     <button type="button" class="close closebtn" data-dismiss="alert" aria-label="Close" onclick="removeFlashMessage()">
@@ -284,22 +280,23 @@
     </section>
     @include('passenger.footer')
 
-    <script src="{{asset('home/js/jquery-3.4.1.min.js')}}"></script>
+    <script src="{{asset('js/jquery-3.4.1.min.js')}}"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.2/js/bootstrap.min.js" integrity="sha512-WW8/jxkELe2CAiE4LvQfwm1rajOS8PHasCCx+knHG0gBHt8EXxS6T6tJRTGuDQVnluuAvMxWF4j8SNFDKceLFg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js" integrity="sha512-VEd+nq25CkR676O+pLBnDW09R7VQX9Mdiij052gVCp5yVH3jGtH70Ho/UUv4mJDsEdTvqRCFZg0NKGiojGnUCw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
-    
     @if(Session::has('error'))
-      <script>
+    <script>
         toastr.options = {
             "progressBar": true,
             "positionClass": "toast-top-right",
             "closeButton": true,
         }
-        toastr.error("{{ Session::get('error') }}", 'Error!', {timeOut: 10000 });
-      </script>
+        toastr.error("{{ Session::get('error') }}", 'No Seat Selected!', {
+            timeOut: 10000
+        });
+    </script>
     @endif
 
     <script>

@@ -46,8 +46,9 @@
                         </div>
                         <div class="mt-3">
                             <a id="decrement" class="border rounded-circle"><i class="fa fa-minus-circle text-success fs-3" aria-hidden="true"></i></a>
-                            <span id="passengerCount">1</span> <span class="fs-5">passengers</span>
+                             <span id="passengerCount">1</span> <span class="fs-5">passengers</span>
                             <a id="increment"><i class="fa fa-plus-circle text-success fs-3" aria-hidden="true"></i></a>
+                            <input type="hidden" name="passenger_count" id="passengerCountInput" value="1">
                         </div>
                         <!-- @if(session('message'))
                         <div class="alert alert-danger" id="flash-message" role="alert">

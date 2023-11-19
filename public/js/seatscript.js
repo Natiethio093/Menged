@@ -51,14 +51,24 @@ const seatCells = document.querySelectorAll('.seat');
 seatCells.forEach((seatCell) => {
     seatCell.addEventListener('click', () => {
         // Toggle the selected seat
+        // if (seatCell.classList.contains('booked-seat')) {
+        //     alert('Sorry this seat is already booked!!.'); 
+        //     return; // Skip adding the seat to selectedSeats
+        // }
+        // if (seatCell.classList.contains('reserved-seat')) {
+        //     alert('Sorry this seat is reserved!!.'); 
+        //     return; // Skip adding the seat to selectedSeats
+        // }
         if (seatCell.classList.contains('booked-seat')) {
-            alert('Sorry this seat is already booked!!.'); 
-            return; // Skip adding the seat to selectedSeats
+            toastr.error('Sorry, This seat is already booked!',{ timeOut: 5000});
+            return;
         }
+
         if (seatCell.classList.contains('reserved-seat')) {
-            alert('Sorry this seat is reserved!!.'); 
-            return; // Skip adding the seat to selectedSeats
+            toastr.error('Sorry, This seat is reserved!');
+            return;
         }
+
         seatCell.classList.toggle('selected-seat');
 
         // Update the selectedSeats array

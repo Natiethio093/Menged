@@ -22,7 +22,7 @@
     <link rel="stylesheet" type="text/css" href="{{asset('css/dashboard.css')}}" />
 
     <style>
-        span{
+        .span{
           color:red;
         }
     </style>

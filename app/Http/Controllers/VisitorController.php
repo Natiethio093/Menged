@@ -103,16 +103,91 @@ class VisitorController extends Controller
 
         $busIds = $schedules->pluck('bus_id')->toArray();
         $buses = Buses::whereIn('id', $busIds)->get();
+        $passengerCount = $req->input('passenger_count');
+
+        // $schedules = [];
+        // foreach ($schedules2 as $schedule) {
+        //     $availableSeats = Seat::where('bus_id', $schedule->bus_id)
+        //         ->where('date', $reqDate)
+        //         ->value('seat_available');
+
+        //     if ($availableSeats === null || $availableSeats >= $passengerCount) {
+        //         $schedues[] = $schedule;
+        //     }
+        // }
 
         $carrierids = $buses->pluck('comp_id')->toArray();
         $carrier = Buscompany::whereIn('id', $carrierids)->get();
         $date = $req->input('date');
         return view('passenger.result', ['route' => $route, 'schedules' => $schedules, 'carrier' => $carrier, 'buses' => $buses, 'date' => $date]);
     }
-    public function selectseat( $scheduleId,$date)
+
+    //     public function search(Request $req)
+    // {
+    //     $validator = $req->validate([
+    //         'source' => "required|string",
+    //         'destination' => "required|string",
+    //         'date' => "required|string|date",
+    //     ]);
+
+    //     $nextDay = Carbon::now()->addDay();
+    //     $now = Carbon::now();
+    //     $reqDate = Carbon::parse($req->date);
+
+    //     if ($reqDate->isSameDay($now)) {
+    //         return redirect("/#search")->with('message', 'No Ticket Left For Today!!!!');
+    //     } else if ($reqDate->lt($now)) {
+    //         return redirect("/#search")->with('message', 'The Date is Already Passed!!');
+    //     }
+
+    //     $route = Route::where('source', $req->source)
+    //         ->where('destination', $req->destination)
+    //         ->first();
+
+    //     if (!$route) {
+    //         return redirect("/#search")->with('message', 'No Trip Found');
+    //     }
+
+    //     $dayOfMonth = (int)date('j', strtotime($req->date));
+    //     $routeType = ($dayOfMonth % 2 === 0) ? 'Even' : 'Odd';
+
+    //     $schedules = Schedule::where('route_id', $route->id)
+    //         ->where('start_date', '<=', $reqDate)
+    //         ->where('end_date', '>=', $reqDate)
+    //         ->where('status', 'Available')
+    //         ->where('route_type', $routeType)
+    //         ->get();
+
+    //     if ($schedules->isEmpty()) {
+    //         return redirect("/#search")->with('message', 'No Trip Found');
+    //     }
+
+    //     $busIds = $schedules->pluck('bus_id')->toArray();
+    //     $buses = Buses::whereIn('id', $busIds)->get();
+
+    //     $carrierIds = $buses->pluck('comp_id')->toArray();
+    //     $carrier = Buscompany::whereIn('id', $carrierIds)->get();
+
+    //     $passengerCount = $req->input('passenger_count'); // Get the passenger count from the hidden input field
+
+    //     $availableBuses = [];
+    //     foreach ($buses as $bus) {
+    //         $availableSeats = Seat::where('bus_id', $bus->id)
+    //             ->where('date', $reqDate)
+    //             ->value('seat_available');
+
+    //         if ($availableSeats === null || $availableSeats >= $passengerCount) {
+    //             $availableBuses[] = $bus;
+    //         }
+    //     }
+
+    //     $date = $req->input('date');
+    //     return view('passenger.result', ['route' => $route, 'schedules' => $schedules, 'carrier' => $carrier, 'buses' => $availableBuses, 'date' => $date]);
+    // }
+    public function selectseat($scheduleId, $date)
     {
 
-            if (Auth::id()) {
+        if (Auth::id()) {
 
             Seat::whereDate('date', '<', now())
                 ->delete();
@@ -180,7 +255,7 @@ class VisitorController extends Controller
             ->where('date', $date)
             ->first();
 
-         if ($existingSeats) {
+        if ($existingSeats) {
 
             $seatsavailable = $existingSeats->seat_available;
 
@@ -256,7 +331,7 @@ class VisitorController extends Controller
         $seatsel = $req->seatsel;
 
         $date = date('Y-m-d', strtotime($req->date));
-      
+
         $validator = Validator::make($req->all(), [
             'passenger.*.name' => 'required|string|regex:/^[A-Za-z]+\s[A-Za-z]+$/',
             'passenger.*.phone' => 'required|numeric',
@@ -337,7 +412,7 @@ class VisitorController extends Controller
 
     public function expiredBookingHandler()
     {
-       
+
         $expired = Session::get('expired');
 
         $bookedId =  $expired['bookedId'];
@@ -350,13 +425,13 @@ class VisitorController extends Controller
 
         $seatselArray = explode(',', $seatsel);
 
-        $bookedseat = Seat::where('id',$seatId)->first();
+        $bookedseat = Seat::where('id', $seatId)->first();
 
         $existingseat =  Booked::where('id', $bookedId)->first();
 
         $seatbookedSeatsArray = explode(',', $bookedseat->booked_seats);
-      
-        $booknew = array_diff($seatbookedSeatsArray , $seatselArray);
+
+        $booknew = array_diff($seatbookedSeatsArray, $seatselArray);
 
         $updatedSeatsArray = array_filter($booknew);
 
@@ -364,32 +439,28 @@ class VisitorController extends Controller
 
         $updatedSeatsString = implode(',', $booknew);
 
-        $seatnew=Seat::where('id',$seatId)->first();
+        $seatnew = Seat::where('id', $seatId)->first();
 
         $selectedSeatsCount = count($seatselArray);
 
-         if($ArrayCount) {
+        if ($ArrayCount) {
 
-          $availableseat = $seatnew->seat_available;
+            $availableseat = $seatnew->seat_available;
 
-          $seatnew->booked_seats = $updatedSeatsString;
+            $seatnew->booked_seats = $updatedSeatsString;
 
-          $seatnew->seat_available = $availableseat + $selectedSeatsCount;
+            $seatnew->seat_available = $availableseat + $selectedSeatsCount;
 
-          $seatnew->save();
+            $seatnew->save();
+        } else {
 
-        }
+            $availableseat =  $seatnew->seat_available;
 
-        else {
+            $seatnew->booked_seats =  null;
 
-          $availableseat =  $seatnew->seat_available;
+            $seatnew->seat_available =  $availableseat + $selectedSeatsCount;
 
-          $seatnew->booked_seats =  null;
-
-          $seatnew->seat_available =  $availableseat + $selectedSeatsCount;
-
-          $seatnew->save();
-
+            $seatnew->save();
         }
 
         Booked::where('id', $bookedId)->delete();
@@ -425,7 +496,7 @@ class VisitorController extends Controller
 
     public function stripePost(Request $request)
     {
-        
+
         $total = $request->total;
 
         $bookedId = $request->bookedId;
